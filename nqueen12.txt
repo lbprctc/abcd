@@ -1,0 +1,89 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<math.h>
+
+
+int a[30], count;//a-->global variale for no of queen size on the board
+
+
+int place(int i,int j)//function to check conflicts
+//if no conflict for desired position return 1 otherwise return 0
+{
+	int k;
+	for(k=1;k<=i-1;k++)
+		{
+			if(a[k]==j)//checking column conflict
+				{
+					return 0;
+				}
+			else if(abs(a[k]-j)==abs(k-i))//checking diagoanal conflict
+				{
+					return 0;
+				}
+		}
+
+	return 1;
+}
+
+void print_func(int n)//function for printing the queen
+{
+	int i,j,k;
+	printf("\n solution number=%d\n", ++count);
+	for(i=1;i<=n;i++)
+	{
+		printf("\t%d",i);
+	}
+
+	for(i=1;i<=n;i++)
+		{
+			printf("\n%d",i);
+			for(j=1;j<=n;j++)//for nxn chessboard
+				{
+					if(a[i]==j)
+					{
+ 
+						printf("\tQ");//queen at i,j th position
+					}
+
+					else
+					{
+						printf("\t-");
+					}
+				}
+		}
+}
+
+void queen(int i,int n)//function to check for proper positioning of queen
+//here i become row and j become column
+{
+	int j,k;
+	for(j=1;j<=n;j++)
+		{
+			if(place(i,j))
+				{
+					a[i] = j;//no conflicts so place queen
+					if(i==n)//dead end
+						{
+							print_func(n);//printing the board configuration
+						}
+			else//try queen with next position
+			{
+				queen(i+1,n);//row+1
+			}
+
+				}
+		}
+}
+
+
+int main()
+{
+	int n;
+
+	printf(" - N Queens Problem Using Backtracking -");
+	printf("\n\nEnter the number of queens:");
+	scanf("%d",&n);
+	queen(1,n);
+	return 0;
+}
